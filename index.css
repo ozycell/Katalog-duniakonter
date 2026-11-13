@@ -1,0 +1,650 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   BASE THEME VARIABLES
+   Simplified - Direct HSL values
+   ============================================ */
+
+:root {
+  --radius: 0.625rem;
+  /* 10px - Standard from docs */
+
+  /* Background & Foreground */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+
+  /* Card */
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  /* Popover */
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  /* Primary - Blue #4045D5 -> 238 62% 54% */
+  --primary: 238 62% 54%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Primary Extended for Component States */
+  --primary-hover: 238 62% 48%;
+  /* Darker 10% */
+  --primary-active: 238 62% 42%;
+  /* Darker 20% */
+  --primary-subtle: 238 62% 96%;
+  /* Lighter */
+
+  /* Primary Scale - Restored for gradients */
+  --primary-50: 238 62% 98%;
+  --primary-100: 238 62% 95%;
+  --primary-200: 238 62% 90%;
+  --primary-300: 238 62% 80%;
+  --primary-400: 238 62% 65%;
+  --primary-500: 238 62% 54%;
+  --primary-600: 238 62% 48%;
+  --primary-700: 238 62% 42%;
+  --primary-800: 238 62% 35%;
+  --primary-900: 238 62% 25%;
+
+  /* Secondary - Gray #6C757D -> 210 7% 46% (Approx) -> Using Slate-ish from index */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47% 11.2%;
+  --secondary-hover: 210 40% 90%;
+  --secondary-active: 210 40% 85%;
+
+  /* Muted */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  /* Accent */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222 47% 11.2%;
+
+  /* Destructive - Red #DC3545 -> 354 70% 54% */
+  --destructive: 354 70% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --destructive-hover: 354 70% 48%;
+  --destructive-active: 354 70% 42%;
+  --destructive-subtle: 354 70% 96%;
+
+  /* Success - Emerald #10B981 -> 151 84% 39% */
+  --success: 151 84% 39%;
+  --success-foreground: 0 0% 100%;
+
+  /* Warning - Amber #F59E0B -> 38 92% 50% */
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 100%;
+
+  /* Border & Input */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 238 62% 54%;
+
+  /* Shadow Colors */
+  --shadow-color: 222 47% 11%;
+  --shadow-opacity-xs: 0.03;
+  --shadow-opacity-sm: 0.05;
+  --shadow-opacity-md: 0.08;
+  --shadow-opacity-lg: 0.12;
+  --shadow-opacity-xl: 0.16;
+
+  /* Component Specific Shadows (Docs) */
+  --shadow-button-primary: 0px 2px 8px hsl(var(--primary) / 0.3);
+  --shadow-button-primary-hover: 0px 4px 12px hsl(var(--primary) / 0.4);
+  --shadow-button-primary-active: 0px 1px 4px hsl(var(--primary) / 0.3);
+
+  /* Sidebar */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-primary: 238 62% 54%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 40% 96%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 238 62% 54%;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+.dark {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 96%;
+
+  --card: 222 40% 14%;
+  --card-foreground: 210 40% 96%;
+
+  --popover: 222 40% 14%;
+  --popover-foreground: 210 40% 96%;
+
+  --primary: 237 65% 56%;
+  --primary-foreground: 0 0% 100%;
+  --primary-subtle: 237 50% 20%;
+  /* White text on primary */
+
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 96%;
+
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 96%;
+
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Shadow - Dark mode */
+  --shadow-color: 222 47% 11%;
+  --shadow-opacity-xs: 0.10;
+  --shadow-opacity-sm: 0.15;
+  --shadow-opacity-md: 0.20;
+  --shadow-opacity-lg: 0.25;
+  --shadow-opacity-xl: 0.30;
+
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --ring: 237 65% 56%;
+
+  --sidebar: 222 40% 14%;
+  --sidebar-foreground: 210 40% 96%;
+  --sidebar-primary: 237 65% 56%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 217 33% 17%;
+  --sidebar-accent-foreground: 210 40% 96%;
+  --sidebar-border: 217 33% 17%;
+  --sidebar-ring: 237 65% 56%;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+
+  /* Gradient Utilities */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary-600)) 0%, hsl(var(--primary-700)) 100%);
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--primary-600)) 0%, hsl(var(--primary-700)) 50%, hsl(var(--primary-800)) 100%);
+  }
+
+  .bg-gradient-card {
+    background: linear-gradient(135deg, hsl(var(--primary-600)) 0%, hsl(var(--primary-700)) 100%);
+  }
+
+  /* Text Gradient */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary-600)) 0%, hsl(var(--primary-700)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Whitelabel Shadows - Using CSS Variables */
+  .shadow-xs {
+    box-shadow: 0 1px 2px 0 hsl(var(--shadow-color) / var(--shadow-opacity-xs));
+  }
+
+  .shadow-sm {
+    box-shadow: 0 1px 3px 0 hsl(var(--shadow-color) / var(--shadow-opacity-sm)),
+      0 1px 2px -1px hsl(var(--shadow-color) / var(--shadow-opacity-sm));
+  }
+
+  .shadow-md {
+    box-shadow: 0 4px 6px -1px hsl(var(--shadow-color) / var(--shadow-opacity-md)),
+      0 2px 4px -2px hsl(var(--shadow-color) / var(--shadow-opacity-md));
+  }
+
+  .shadow-lg {
+    box-shadow: 0 10px 15px -3px hsl(var(--shadow-color) / var(--shadow-opacity-lg)),
+      0 4px 6px -4px hsl(var(--shadow-color) / var(--shadow-opacity-lg));
+  }
+
+  .shadow-xl {
+    box-shadow: 0 20px 25px -5px hsl(var(--shadow-color) / var(--shadow-opacity-xl)),
+      0 8px 10px -6px hsl(var(--shadow-color) / var(--shadow-opacity-xl));
+  }
+
+  /* Primary colored shadows (for primary buttons/elements) */
+  .shadow-primary {
+    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -2px hsl(var(--primary) / 0.1);
+  }
+
+  .shadow-primary-lg {
+    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.2), 0 4px 6px -4px hsl(var(--primary) / 0.2);
+  }
+
+  .shadow-primary-xl {
+    box-shadow: 0 20px 25px -5px hsl(var(--primary) / 0.25), 0 8px 10px -6px hsl(var(--primary) / 0.25);
+  }
+
+  /* Bottom shadow for navbar */
+  .shadow-bottom {
+    box-shadow: 0 4px 12px -2px hsl(var(--shadow-color) / var(--shadow-opacity-md));
+  }
+
+  /* Top shadow for bottom nav */
+  .shadow-top {
+    box-shadow: 0 -4px 20px -4px hsl(var(--shadow-color) / var(--shadow-opacity-md));
+  }
+
+  /* Status Badges */
+  .badge-success {
+    @apply bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800;
+  }
+
+  .badge-warning {
+    @apply bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-800;
+  }
+
+  .badge-error {
+    @apply bg-red-50 text-red-600 border-red-200 dark:bg-red-950 dark:text-red-400 dark:border-red-800;
+  }
+
+  /* Scrollbar Hide */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe Areas */
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top, 0px), 0.5rem);
+  }
+
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
+  }
+
+  /* Header: safe area di luar, toolbar padding simetris di dalam */
+  .safe-header-y {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .header-toolbar {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    min-height: 3.5rem;
+  }
+
+  /* Safe area + fixed element offset utilities */
+  .pt-safe-header {
+    padding-top: calc(3.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  /* Header actual height = safe-area + header-toolbar (0.5rem pad + 3.5rem min-h + 0.5rem pad)
+     = safe-area + 4.5rem.  This class gives the full offset so content never touches
+     the header.  Used by ActionPageContent and standalone pages that do NOT get an
+     extra pt-4 from a parent layout. */
+  .pt-safe-header-with-gap {
+    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .top-safe-header-with-gap {
+    top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .top-safe-header {
+    top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .pb-safe-nav {
+    padding-bottom: calc(3.5rem + max(env(safe-area-inset-bottom, 0px), 0.5rem));
+  }
+
+  .pb-safe-action {
+    padding-bottom: calc(5rem + max(env(safe-area-inset-bottom, 0px), 0.5rem));
+  }
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.page-content {
+  width: 100%;
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 5rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .page-content {
+    max-width: 512px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-content {
+    max-width: 576px;
+  }
+}
+
+.container-mobile {
+  width: 100%;
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ============================================
+   FORM STYLES
+   ============================================ */
+
+.input-modern {
+  display: block;
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 0.9375rem;
+  color: hsl(var(--foreground));
+  transition: all 200ms;
+}
+
+.input-modern::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: hsl(var(--primary-500));
+  box-shadow: 0 0 0 3px hsl(var(--primary-200) / 0.4);
+}
+
+/* Primary Button */
+.button-primary {
+  display: flex;
+  width: 100%;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, hsl(var(--primary-600)) 0%, hsl(var(--primary-700)) 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px hsl(var(--primary-500) / 0.3);
+  transition: all 200ms;
+  border: none;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background: linear-gradient(135deg, hsl(var(--primary-700)) 0%, hsl(var(--primary-800)) 100%);
+  box-shadow: 0 20px 25px -5px hsl(var(--primary-500) / 0.4);
+  transform: translateY(-2px);
+}
+
+.button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid hsl(var(--primary-500));
+  outline-offset: 2px;
+}
+
+::selection {
+  background: hsl(var(--primary-200));
+  color: hsl(var(--primary-900));
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   SCROLLBAR FIXES
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Input autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px hsl(var(--background)) inset;
+  -webkit-text-fill-color: hsl(var(--foreground));
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Number input spinner */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ============================================
+   DEPOSIT INSTRUCTIONS (how_to_use)
+   ============================================ */
+
+.deposit-instructions {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground));
+}
+
+.deposit-instructions ol,
+.deposit-instructions ul {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.deposit-instructions li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.deposit-instructions li::marker {
+  color: hsl(var(--primary-500));
+  font-weight: 500;
+}
+
+.deposit-instructions ol {
+  list-style-type: decimal;
+}
+
+.deposit-instructions ul {
+  list-style-type: disc;
+}
+
+.deposit-instructions p {
+  margin: 0.5rem 0;
+}
+
+.deposit-instructions a {
+  color: hsl(var(--primary-500));
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.deposit-instructions a:hover {
+  color: hsl(var(--primary-600));
+}
+
+.deposit-instructions strong,
+.deposit-instructions b {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.deposit-instructions em,
+.deposit-instructions i {
+  font-style: italic;
+}
+
+.deposit-instructions u {
+  text-decoration: underline;
+}
+
+.deposit-instructions s,
+.deposit-instructions strike {
+  text-decoration: line-through;
+}
+
+.deposit-instructions br {
+  display: block;
+  margin: 0.25rem 0;
+}
+
+.deposit-instructions > *:first-child {
+  margin-top: 0;
+}
+
+.deposit-instructions > *:last-child {
+  margin-bottom: 0;
+}
+/* ============================================
+   LINE CLAMP UTILITIES (Custom)
+   ============================================ */
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
