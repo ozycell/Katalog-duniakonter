@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katalog Aksesoris & Sparepart - DUNIA KONTER</title>
+  <style>
+    * { box-sizing: border-box; font-family: sans-serif; }
+    body { margin: 0; background: #f4f6f8; padding-bottom: 90px; }
+    header { background: #1e3a8a; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 10; }
+    header h1 { margin: 0; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+    .card { background: white; border-radius: 10px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
+    .card h3 { margin: 0 0 6px; font-size: 14px; color: #1f2937; }
+    .price { color: #d97706; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+    .btn-add { background: #2563eb; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #ddd; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); }
+    .btn-checkout { background: #16a34a; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: flex-end; z-index: 20; }
+    .modal-content { background: white; width: 100%; max-height: 80vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding: 16px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 8px 0; }
+    .qty-btn { padding: 4px 10px; margin: 0 4px; border: 1px solid #ccc; background: #f9fafb; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>DUNIA KONTER - Aksesoris & Sparepart</h1>
+</header>
+
+<div class="grid" id="product-list"></div>
+
+<div class="cart-bar">
+  <div>
+    <div style="font-size:12px; color:#666;">Total Keranjang (<span id="cart-count">0</span> item)</div>
+    <div style="font-weight:bold; font-size:16px; color:#111;">Rp <span id="cart-total">0</span></div>
+  </div>
+  <button class="btn-checkout" onclick="openCart()">Lihat Keranjang</button>
+</div>
+
+<div class="modal" id="cart-modal">
+  <div class="modal-content">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="margin:0;">Keranjang Belanja</h3>
+      <button onclick="closeCart()" style="border:none; background:none; font-size:18px;">✕</button>
+    </div>
+    <div id="cart-items" style="margin: 12px 0;"></div>
+    <input type="text" id="buyer-name" placeholder="Nama Pemesan / Konter" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid #ccc; border-radius:6px;" />
+    <input type="text" id="buyer-address" placeholder="Alamat Pengiriman / Catatan" style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px;" />
+    <button class="btn-checkout" style="width:100%;" onclick="checkoutWA()">Checkout via WhatsApp</button>
+  </div>
+</div>
+
+<script>
+  // GANTI NOMOR WA ADMIN DI SINI (awali dengan 62)
+  const ADMIN_WA = "6281234567890";
+
+  // DAFTAR PRODUK (Bisa ditambah atau diubah harganya)
+  const products = [
+    { id: 1, name: "Kabel Data ROBOT Fast Charging Type-C", price: 18000 },
+    { id: 2, name: "Kepala Charger ROBOT 20W PD", price: 55000 },
+    { id: 3, name: "Tempered Glass Full Cover All Type", price: 12000 },
+    { id: 4, name: "LCD Touchscreen Original Grade A", price: 145000 },
+    { id: 5, name: "Baterai Tanam Double Power", price: 75000 },
+    { id: 6, name: "Konektor Cas / Papan Cas Universal", price: 25000 }
+  ];
+
+  let cart = {};
+
+  function renderProducts() {
+    const list = document.getElementById("product-list");
+    list.innerHTML = products.map(p => `
+      <div class="card">
+        <div>
+          <h3>${p.name}</h3>
+          <div class="price">Rp ${p.price.toLocaleString("id-ID")}</div>
+        </div>
+        <button class="btn-add" onclick="addToCart(${p.id})">+ Keranjang</button>
+      </div>
+    `).join("");
+  }
+
+  function addToCart(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    updateSummary();
+  }
+
+  function changeQty(id, delta) {
+    cart[id] = (cart[id] || 0) + delta;
+    if (cart[id] <= 0) delete cart[id];
+    updateSummary();
+    renderCartItems();
+  }
+
+  function updateSummary() {
+    let count = 0, total = 0;
+    for (let id in cart) {
+      const prod = products.find(p => p.id == id);
+      count += cart[id];
+      total += prod.price * cart[id];
+    }
+    document.getElementById("cart-count").innerText = count;
+    document.getElementById("cart-total").innerText = total.toLocaleString("id-ID");
+  }
+
+  function openCart() {
+    renderCartItems();
+    document.getElementById("cart-modal").style.display = "flex";
+  }
+
+  function closeCart() {
+    document.getElementById("cart-modal").style.display = "none";
+  }
+
+  function renderCartItems() {
+    const container = document.getElementById("cart-items");
+    const keys = Object.keys(cart);
+    if (keys.length === 0) {
+      container.innerHTML = "<p style='color:#666;'>Keranjang masih kosong.</p>";
+      return;
+    }
+    container.innerHTML = keys.map(id => {
+      const prod = products.find(p => p.id == id);
+      return `
+        <div class="cart-item">
+          <div>
+            <div style="font-weight:bold; font-size:14px;">${prod.name}</div>
+            <div style="font-size:12px; color:#666;">Rp ${(prod.price * cart[id]).toLocaleString("id-ID")}</div>
+          </div>
+          <div>
+            <button class="qty-btn" onclick="changeQty(${id}, -1)">-</button>
+            <span>${cart[id]}</span>
+            <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function checkoutWA() {
+    const keys = Object.keys(cart);
+    if (keys.length === 0) return alert("Keranjang masih kosong!");
+    const name = document.getElementById("buyer-name").value || "-";
+    const addr = document.getElementById("buyer-address").value || "-";
+    let text = `Halo DUNIA KONTER, saya mau pesan:\n\n`;
+    let total = 0;
+    keys.forEach((id, i) => {
+      const prod = products.find(p => p.id == id);
+      const sub = prod.price * cart[id];
+      total += sub;
+      text += `${i+1}. ${prod.name} (${cart[id]}x) = Rp ${sub.toLocaleString("id-ID")}\n`;
+    });
+    text += `\n*Total: Rp ${total.toLocaleString("id-ID")}*\nNama: ${name}\nAlamat: ${addr}`;
+    window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`, "_blank");
+  }
+
+  renderProducts();
+</script>
+</body>
+</html>
